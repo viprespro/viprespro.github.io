@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>项目纪实杂症之process is not defined | AresのBlog</title><meta name="author" content="Ares"><meta name="copyright" content="Ares"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="项目纪实杂症之process is not defined背景介绍项目使用的Vite构建React前端项目，符号现代化web开发规范，部署到云端通过新建流水线后实现自动部署。通常情况是本地修改之后之后上传release分支，运行流水线，部署完成(uat)。终于有一天，按照常规操作之后，再次访问项目，意外出现白屏无法问题。开始排查… 排查流程从最直观的错误出发 登录成功之后进入首页，页面空白，打开开">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目纪实杂症之process is not defined">
+<meta property="og:url" content="https://aresuper.cn/posts/e9bf7ab36816/index.html">
+<meta property="og:site_name" content="AresのBlog">
+<meta property="og:description" content="项目纪实杂症之process is not defined背景介绍项目使用的Vite构建React前端项目，符号现代化web开发规范，部署到云端通过新建流水线后实现自动部署。通常情况是本地修改之后之后上传release分支，运行流水线，部署完成(uat)。终于有一天，按照常规操作之后，再次访问项目，意外出现白屏无法问题。开始排查… 排查流程从最直观的错误出发 登录成功之后进入首页，页面空白，打开开">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aresuper.cn/img/cover.jpg">
+<meta property="article:published_time" content="2023-04-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-18T03:31:40.203Z">
+<meta property="article:author" content="Ares">
+<meta property="article:tag" content="investigating-complex-issues">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aresuper.cn/img/cover.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://aresuper.cn/posts/e9bf7ab36816/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Ares","link":"链接: ","source":"来源: AresのBlog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '项目纪实杂症之process is not defined',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-18 11:31:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><link rel="stylesheet" href="/css/pace.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> Posts</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/gallery"><i class="fa-fw fas fa-heart"></i><span> Gallery</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Friends</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About Me</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic4.zhimg.com/80/v2-6f7460c4bddac30226f1c085ae39bab3_1440w.webp')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">AresのBlog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> Posts</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/gallery"><i class="fa-fw fas fa-heart"></i><span> Gallery</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Friends</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About Me</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">项目纪实杂症之process is not defined</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-27T16:00:00.000Z" title="发表于 2023-04-28 00:00:00">2023-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-18T03:31:40.203Z" title="更新于 2023-08-18 11:31:40">2023-08-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/experience-sharing/">experience-sharing</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="项目纪实杂症之process is not defined"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="项目纪实杂症之process-is-not-defined"><a href="#项目纪实杂症之process-is-not-defined" class="headerlink" title="项目纪实杂症之process is not defined"></a>项目纪实杂症之<code>process is not defined</code></h1><h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>项目使用的Vite构建React前端项目，符号现代化web开发规范，部署到云端通过新建流水线后实现自动部署。通常情况是本地修改之后之后上传release分支，运行流水线，部署完成(uat)。终于有一天，按照常规操作之后，再次访问项目，意外出现白屏无法问题。开始排查…</p>
+<h2 id="排查流程"><a href="#排查流程" class="headerlink" title="排查流程"></a>排查流程</h2><h3 id="从最直观的错误出发"><a href="#从最直观的错误出发" class="headerlink" title="从最直观的错误出发"></a>从最直观的错误出发</h3><ol>
+<li><p>登录成功之后进入首页，页面空白，打开开发控制台，控制台明显报错，见下图<br><a target="_blank" rel="noopener" href="http://3.83.142.223/imgs/01.png">err01.png</a><br><a target="_blank" rel="noopener" href="http://3.83.142.223/imgs/02.png">err02.png</a></p>
+</li>
+<li><p>从错误信息可以直观判断出，源码中使用了<code>process</code>,但是没定义，<code>process</code>是node环境下的定义的，如果说在浏览器端直接使用的话，是会出这样的问题，于是找到本地代码，查找<code>process</code>的使用地方，排除了node_modules第三库之外，只有一处使用了<code>process.cwd()</code>，和错误处相距甚远，显然不是这个这里导致的。</p>
+</li>
+<li><p>项目代码没问题，那究竟是哪里出来问题？同样的代码，之前构建跑的流水线能够使用，今天却突然不行了，极大的可能是流水线哪里出了问题，于是…</p>
+</li>
+</ol>
+<h3 id="排查前后流水线的差别"><a href="#排查前后流水线的差别" class="headerlink" title="排查前后流水线的差别"></a>排查前后流水线的差别</h3><p>经过前后对比前后2条流水线的对比之后发现，出问题的这条流水线的部分包的依赖版本更高，像<code>esbuild</code> <code>rollup</code>等，刚好这些是<code>vite</code>的依赖，竟然是<code>vite</code>来进行打包，那么合理的猜想便是这些包的版本高了导致的问题，查看vite包依赖如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;esbuild&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.17.5&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;postcss&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^8.4.21&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;resolve&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.22.1&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;rollup&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.18.0&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这里需要了解的第一个知识点，包版本范围的控制的控制</p>
+<ul>
+<li><code>^</code>符号表示可以安装指定包的最新版本，但是版本号的第一位不能变。例如，”^1.2.3”表示可以安装1.2.x系列中最新的版本，但不能安装1.3.0及以上版本</li>
+<li><code>~</code>符号表示可以安装指定包的最新版本，但是版本号的前两位不能变。例如，”~1.2.3”表示可以安装1.2.x系列中最新的版本，但不能安装1.3.x及以上版本</li>
+<li><code>&gt;</code>：表示可以安装指定包的最新版本，但是必须大于指定的版本号。</li>
+<li><code>&gt;=</code>：表示可以安装指定包的最新版本，但是必须大于等于指定的版本号。</li>
+<li><code>&lt;</code>：表示可以安装指定包的最新版本，但是必须小于指定的版本号。</li>
+<li><code>&lt;=</code>：表示可以安装指定包的最新版本，但是必须小于等于指定的版本号。</li>
+<li><code>=</code>：表示只能安装指定的版本号。</li>
+<li><code>-</code>：表示可以安装指定范围内的任意版本。例如，”1.2.3 - 1.2.5”表示可以安装1.2.3、1.2.4和1.2.5这三个版本</li>
+</ul>
+<p>由上再结合npm官网<code>esbuild</code>包的更新，发现正好esbuild前两天更新了，那么此时拉到最新版本0.17.18符合预期，考虑到可能是包更新导致的问题，想办法只安装<code>esbuild</code>版本为0.17.17，好的流水线真是0.17.17版本，作了以下尝试：</p>
+<p>在项目的devDependencies中的vite下面添加</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;vite&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.2.1&quot;</span></span><br><span class="line"><span class="attr">&quot;esbuild&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.17.17&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>发现这种情况并不能阻止安装最新的<code>esbuild</code>为0.17.18, a few minutes later, 来到了第二个知识点，当想要固定项目中依赖的依赖时，<code>package.json</code>中添加字段如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;resolutions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;esbuild&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.17.17&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<p>修改完成，构建部署，打开页面，同样的错误,就说不会这么简单~ 继续对比，发现rollup的版本也和esbuild是一样的情况，那么也尝试固定一下rollup的版本呢，如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;resolutions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;esbuild&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.17.17&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;rollup&quot;</span><span class="punctuation">:</span> <span class="string">&quot;3.20.6&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<p>结论出来了，看了仅仅改变包依赖的问题还是不能解决，只能另想它法了。这个<code>process</code>到底是哪里使用，于是又有了新的思路！</p>
+<h3 id="寻找process使用源头"><a href="#寻找process使用源头" class="headerlink" title="寻找process使用源头"></a>寻找process使用源头</h3><p>由于线上是生产打包文件，打包的文件，不是很好确定！考虑本地来复现问题，首先移除node_modules，拉取最新的包依赖和线上保持一致，完事之后，运行yarn dev，打开访问地址，登录，进入首页，空白！！Ops, 复现，打开控制台，便很容易得到以下截图<br><a target="_blank" rel="noopener" href="http://3.83.142.223/imgs/03.png">err03.png</a></p>
+<p>终于，罪魁祸首引用的地方找到了，原来是<code>@ant-design/pro-components</code>包中引用报错，看看npm官网，这个包最近也是有所更新，那么到底是这个包升级导致的问题与否，问了官方的人员没给我答复。我暂且不追究了，搜索得知，vite在本地开启服务的时候是可以通过<code>define</code>字段来定义，于是在<code>vite.config.ts</code>中添加字段定义</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">define</span>: &#123;</span><br><span class="line">  <span class="string">&#x27;process.env&#x27;</span>: &#123;&#125;,</span><br><span class="line">&#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>再次<code>yarn dev</code>，可以！ 搞定了，折腾得已经够久了，然后愉快打个包，线上仍然是同样的问题 …</p>
+<p>经过一番思索，上面那个配置应该是在<code>vite</code>开发环境下编译注入,打包之后便失去了效果，那么如果有能对于打包的配置，在输出的时候注入不就可以了~ 果然还是有这样的答案，文章是针对<code>rollup</code>配置，刚好<code>vite</code>也是<code>rollup</code>来进行打包，这下刚刚好，参考文章之后添加如下配置</p>
+<p><code>vite.config.ts</code>中</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略了不必要的代码</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineConfig</span>(mode) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="title class_">Global</span> = <span class="string">`var process = &#123;</span></span><br><span class="line"><span class="string">   env: &#123;&#125;</span></span><br><span class="line"><span class="string">  &#125;`</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">build</span>: &#123;</span><br><span class="line">      <span class="attr">rollupOptions</span>: &#123;</span><br><span class="line">        <span class="attr">banner</span>: <span class="title class_">Global</span>, <span class="comment">// 如此之后在打包输出文件添加了process变量</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在经过以上的配置，打包，访问，首页出现，完美收工！</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>出现这个问题自是包依赖版本拉取到最新的问题，但具体是哪个环节出了问题，没有定论。</p>
+<p><strong>需要掌握的几个知识点：</strong></p>
+<ul>
+<li><code>package.json</code>包依赖的版本范围控制</li>
+<li>项目依赖项中子依赖的版本控制</li>
+<li>构建工具<code>vite</code>有了更高的体会，使用<code>import.meta.env</code>而非<code>process.env</code>来控制环境变量等</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://aresuper.cn">Ares</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://aresuper.cn/posts/e9bf7ab36816/">https://aresuper.cn/posts/e9bf7ab36816/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://aresuper.cn" target="_blank">AresのBlog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/investigating-complex-issues/">investigating-complex-issues</a></div><div class="post_share"><div class="social-share" data-image="/img/cover.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/491816fd7ee8/"><img class="prev-cover" src="/img/loading.gif" data-original="https://5b0988e595225.cdn.sohucs.com/images/20190801/ab8b77dbe3914e70a3101eee95c52683.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Git</div></div></a></div><div class="next-post pull-right"><a href="/posts/9bf926d88050/"><img class="next-cover" src="/img/loading.gif" data-original="https://img2.baidu.com/it/u=3732659581,2264503440&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=952&amp;h=500" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ares</div><div class="author-info__description">Yesterday's abyss, tomorrow's shallow discussion.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/viprespro"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/viprespro" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">持续更新中...</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%BA%AA%E5%AE%9E%E6%9D%82%E7%97%87%E4%B9%8Bprocess-is-not-defined"><span class="toc-number">1.</span> <span class="toc-text">项目纪实杂症之process is not defined</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">背景介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E6%9F%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">排查流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E6%9C%80%E7%9B%B4%E8%A7%82%E7%9A%84%E9%94%99%E8%AF%AF%E5%87%BA%E5%8F%91"><span class="toc-number">1.2.1.</span> <span class="toc-text">从最直观的错误出发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E6%9F%A5%E5%89%8D%E5%90%8E%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%B7%AE%E5%88%AB"><span class="toc-number">1.2.2.</span> <span class="toc-text">排查前后流水线的差别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E6%89%BEprocess%E4%BD%BF%E7%94%A8%E6%BA%90%E5%A4%B4"><span class="toc-number">1.2.3.</span> <span class="toc-text">寻找process使用源头</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/ae59a3a33a17/" title="Algorithm - DFS &amp; BFS (JavaScript)">Algorithm - DFS &amp; BFS (JavaScript)</a><time datetime="2023-08-18T01:00:00.000Z" title="发表于 2023-08-18 09:00:00">2023-08-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/a74b63764da0/" title="Algorithm - Sorting (JavaScript)">Algorithm - Sorting (JavaScript)</a><time datetime="2023-05-18T10:15:30.000Z" title="发表于 2023-05-18 18:15:30">2023-05-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/491816fd7ee8/" title="Git">Git</a><time datetime="2023-05-16T07:16:57.000Z" title="发表于 2023-05-16 15:16:57">2023-05-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/e9bf7ab36816/" title="项目纪实杂症之process is not defined">项目纪实杂症之process is not defined</a><time datetime="2023-04-27T16:00:00.000Z" title="发表于 2023-04-28 00:00:00">2023-04-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/9bf926d88050/" title="Linux">Linux</a><time datetime="2023-03-26T02:29:23.000Z" title="发表于 2023-03-26 10:29:23">2023-03-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://pic4.zhimg.com/80/v2-6f7460c4bddac30226f1c085ae39bab3_1440w.webp')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Ares</div><div class="footer_custom_text">One who has seen the ocean thinks nothing of mere rivers.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>
