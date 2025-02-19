@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" href="../img/love.ico" type="image/x-icon" />
+    <title>BeLoved</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        background: #fbe8ea;
+        display: flex;
+        align-items: center;
+      }
+
+      #container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        background: #fcfcfe;
+        border-radius: 12px;
+        box-shadow: 1px 1px 10px #fbe8ea;
+      }
+
+      .love-gif {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        left: 50%;
+        top: 25px;
+        transform: translateX(-50%);
+      }
+
+      .love-gif img {
+        width: 100%;
+        height: 100%;
+      }
+
+      h1 {
+        position: absolute;
+        font-size: 24px;
+        font-weight: bold;
+        color: #e14553;
+        left: 50%;
+        bottom: 40px;
+        white-space: nowrap;
+        transform: translateX(-50%);
+      }
+
+      .btn {
+        position: absolute;
+        width: 50px;
+        height: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -15px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 15px;
+        background-color: #e14553;
+        cursor: pointer;
+      }
+
+      #yesBtn {
+        left: 40%;
+      }
+
+      #noBtn {
+        left: 60%;
+      }
+
+      .love-img {
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        animation: love 1.5s infinite;
+      }
+
+      @keyframes love {
+        0% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(0.8);
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(0.5);
+          opacity: 0.5;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(0.8);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div class="love-gif">
+        <img src="../img/bite.gif" />
+      </div>
+      <h1>Do you love me?</h1>
+
+      <div class="btn" id="yesBtn">Yes</div>
+      <div class="btn" id="noBtn">No</div>
+    </div>
+
+    <script>
+      const yesBtn = document.querySelector('#yesBtn')
+      const noBtn = document.querySelector('#noBtn')
+      const container = document.querySelector('#container')
+
+      noBtn.addEventListener('mouseover', () => {
+        const newX = ~~(Math.random() * (container.offsetWidth - 50))
+        const newY = ~~(Math.random() * (container.offsetHeight - 30))
+        noBtn.style.left = `${newX}px`
+        noBtn.style.top = `${newY}px`
+      })
+
+      yesBtn.addEventListener('click', () => {
+        const img = document.createElement('img')
+        img.src = '../img/love.webp'
+        img.alt = 'love'
+        img.className = 'love-img'
+
+        const h1 = document.createElement('h1')
+        h1.textContent = 'I love you too~'
+
+        container.innerHTML = ''
+        container.appendChild(img)
+        container.appendChild(h1)
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0"
+    />
+    <title>打开小程序</title>
+    <style>
+      #block__center {
+        display: none;
+        height: 100vh;
+        width: 100vw;
+      }
+      #container__wx {
+        display: flex;
+      }
+      #container__wx p {
+        color: #3b426b;
+        margin-bottom: 20px;
+      }
+      #btn__target {
+        display: block;
+        background-color: #07c160;
+        border-radius: 4px;
+        /* background: #1e56e7; */
+        color: #fff;
+        padding: 6px 20px;
+        border-radius: 2px;
+        text-decoration: none;
+        font-size: 1.4rem;
+      }
+
+      body,
+      html {
+        padding: 0;
+        margin: 0;
+      }
+
+      #container {
+        width: 100vw;
+        height: 100vh;
+        font-size: 1.4rem;
+        line-height: 2rem;
+        position: relative;
+        background: #fff;
+        overflow-y: auto;
+      }
+
+      #container__wx {
+        justify-content: center;
+        overflow: hidden;
+        background: #f8f8f9;
+      }
+
+      #container__nwx,
+      #container__wx {
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        max-height: 100vh;
+      }
+
+      #container__nwx {
+        justify-content: flex-start;
+        box-sizing: border-box;
+        overflow-y: hidden;
+        padding-top: 20vh;
+      }
+
+      .text-top {
+        font-size: 20px;
+        line-height: 28px;
+        margin-bottom: 32px;
+      }
+
+      .text-bttom,
+      .text-top {
+        font-weight: 500;
+        color: #3b426b;
+      }
+
+      .text-bttom {
+        margin-top: 32px;
+        width: 280px;
+        height: 32px;
+        background: #f2f5fa;
+        border-radius: 28px;
+        font-size: 14px;
+        line-height: 32px;
+        text-align: center;
+      }
+
+      #btn__target {
+        margin-bottom: 24px;
+      }
+
+      #btn__wx {
+        margin-bottom: 100px;
+        position: relative;
+      }
+
+      #btn__wx.blue:after {
+        content: '请完成授权后继续访问';
+        position: absolute;
+        bottom: -50px;
+        display: block;
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: #3b426b;
+        font-weight: 400;
+      }
+
+      #block__show {
+        width: 100%;
+        height: 100vh;
+        background: #fff;
+        box-sizing: border-box;
+        padding-bottom: 100%;
+        display: none;
+      }
+
+      #block__show img {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 12rem auto 0;
+      }
+
+      #block__show img,
+      #block__top {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      #block__top {
+        flex-direction: column;
+        align-items: flex-end;
+        padding-top: 0.4rem;
+      }
+
+      #block__bottom,
+      #block__top {
+        width: 100vw;
+        background: #add8e6;
+      }
+
+      #block__bottom {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 8rem;
+      }
+
+      #img--arrow {
+        display: block;
+        width: 2rem;
+        height: 2rem;
+        margin-bottom: 0.4rem;
+      }
+
+      #test_center {
+        display: flex;
+        position: absolute;
+        z-index: 99;
+        top: 10rem;
+        bottom: 11rem;
+        width: 100vw;
+        background: rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+      }
+
+      #block__btns,
+      #test_center {
+        align-items: center;
+        justify-content: center;
+      }
+
+      #block__btns {
+        display: none;
+        flex-direction: column;
+        height: 80%;
+      }
+
+      .btn {
+        width: 220px;
+        height: 50px;
+        background: #fff;
+        border-radius: 2px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #565a66;
+      }
+
+      .btn.blue {
+        color: #fff;
+        background: linear-gradient(315deg, #6ba8ff, #1e56e7);
+        font-weight: 500;
+      }
+
+      .btn-margin {
+        margin-bottom: 1.2rem;
+        margin-top: 1.2rem;
+      }
+
+      .btn__text {
+        color: #1e56e7;
+        font-size: 1.6rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="block__center">
+        <div id="container__wx">
+          <p>如果您的浏览器没有自动跳转，请点击下方按钮</p>
+          <div id="btn__target" class="btn__text"></div>
+        </div>
+      </div>
+
+      <div id="block__show">
+        <img
+          src="https://static.interval.im/interval/nmrGmwJJGGFjmnDZ.png"
+          alt=""
+        />
+      </div>
+    </div>
+
+    <script>
+      const URL_SCHEME = 'weixin://dl/business/?t=UBTlw4dNdUc'
+      var id = null
+
+      const setFontSize = () => {
+        let e = (document.documentElement.clientWidth / 375) * 10
+
+        e < 10 && (e = 10),
+          20 < e && (e = 20),
+          (document.documentElement.style.fontSize = e + 'px')
+      }
+
+      function getDeviceInfo() {
+        var e = window.navigator.userAgent.toLowerCase(),
+          t = /(android)/.test(e),
+          o = /(iphone|ios)/.test(e),
+          n = t || o,
+          r = /micromessenger/.test(e),
+          s = o && /qq/.test(e.split('mqqbrowser'))
+
+        return {
+          is_qq_browser:
+            (t && /qq/.test(e.split('mqqbrowser')) && /mqqbrowser/.test(e)) ||
+            s,
+          is_mobile: n,
+          is_android: t,
+          is_iphone: o,
+          is_weixin_browser: r,
+        }
+      }
+
+      // * EventListener
+      window.addEventListener('resize', setFontSize(), false)
+      window.addEventListener('DOMContentLoaded', setFontSize())
+      window.addEventListener('load', function () {
+        var e = document.getElementById('block__show'),
+          t = document.getElementById('block__center')
+
+        const { is_weixin_browser, is_qq_browser, is_mobile } = getDeviceInfo()
+        const isWXOrQQBrowser = is_weixin_browser || is_qq_browser
+
+        if (isWXOrQQBrowser) {
+          e.style.display = 'block'
+        } else {
+          t.style.display = 'block'
+          n = document.getElementById('btn__target')
+          n.innerText = '打开小程序'
+          location.href = URL_SCHEME
+          n.onclick = function () {
+            if (!is_mobile) {
+              return alert('请在手机端进行操作')
+            }
+            location.href = URL_SCHEME
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
