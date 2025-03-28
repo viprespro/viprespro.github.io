@@ -232,12 +232,18 @@
           alt=""
         />
       </div>
+
+      <button onclick="handleClick()">测试通过按钮点击跳转</button>
     </div>
 
     <script>
-      const URL_SCHEME =
-        'https://umopwx-prd.saas.cmsk1979.com/openMina.html?link_mina_path=/pages/home/index'
+      const URL_SCHEME = 'weixin://dl/business/?t=UBTlw4dNdUc'
       var id = null
+
+      function handleClick() {
+        location.href =
+          'https://umopwx-prd.saas.cmsk1979.com/openMina.html?link_mina_path=/pages/home/index'
+      }
 
       const setFontSize = () => {
         let e = (document.documentElement.clientWidth / 375) * 10
